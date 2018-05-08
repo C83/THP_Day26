@@ -1,0 +1,32 @@
+<h1> List of events </h1>
+<div> 
+  <p>Today, it's <%=Time.now%></p>
+  <% unless @list_events.count == 0 %> 
+    <h5>Future :</h5>
+      <% unless @list_future_events.count == 0 %>
+        <ul>
+          <% @list_future_events.each do |event| %>
+            <li> Event #<%= event.id %>, by : <%= event.creator.name %><br/>
+            <%= event.description %> <br/>
+            <a href="<%= event_path(event.id)%>"> Visit for more details </a> </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p>No future event</p>
+      <% end %>
+
+    <h5>Past :</h5>
+    <% unless @list_past_events.count == 0 %>
+      <ul>
+        <% @list_past_events.each do |event| %>
+          <li> Event #<%= event.id %>, by : <%= event.creator.name %><br/>
+          <%= event.description %> <br/>
+          <a href="<%= event_path(event.id)%>"> Visit for more details </a> </li>
+        <% end %>
+    <% else %>
+      <p>No past event</p>
+    <% end %>
+  <% else %>
+    <p> There is no created event :'(</p>
+  <% end %> 
+</div>

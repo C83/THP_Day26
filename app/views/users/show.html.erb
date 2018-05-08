@@ -1,0 +1,75 @@
+<h1>Profile of user</h1>
+<h4>Name : <%= @this_user.name %></h4>
+<div> 
+	<% unless @this_user.created_events.count == 0 %>
+		<h4> Events created by <%= @this_user.name %> :</h4> 
+				<h5>Future :</h5>
+			<% unless @list_future_events_created.count == 0 %>
+				<ul>
+					<% @list_future_events_created.each do |event| %>
+						<li> Event #<%= event.id %>, by : <%= event.creator.name %><br/>
+						<%= event.description %> <br/>
+						<a href="<%= event_path(event.id)%>"> Visit for more details </a> </li>
+					<% end %>
+				</ul>
+			<% else %>
+				<p>No future event</p>
+			<% end %>
+
+		<h5>Past :</h5>
+		<% unless @list_past_events_created.count == 0 %>
+			<ul>
+				<% @list_past_events_created.each do |event| %>
+					<li> Event #<%= event.id %>, by : <%= event.creator.name %><br/>
+					<%= event.description %> <br/>
+					<a href="<%= event_path(event.id)%>"> Visit for more details </a> </li>
+				<% end %>
+			</ul>
+		<% else %>
+			<p>No past event</p>
+		<% end %>
+	<% else %>
+		<p><%= @this_user.name.capitalize %> didn't create a event.</p>
+	<% end %> 
+</div>
+<div>
+	<p>
+		<h4>Attended event</h4>
+		<% unless @this_user.attended_events.count == 0%>
+			List of attended events : <br/>
+			<h5>Future :</h5>
+			<% unless @list_future_attended_events.count == 0 %>
+				<ul>
+					<% @list_future_attended_events.each do |event| %>
+						<li> Event #<%= event.id %>, by : <%= event.creator.name %><br/>
+						<%= event.description %> <br/>
+						<a href="<%= event_path(event.id)%>"> Visit for more details </a> </li>
+					<% end %>
+				</ul>
+			<% else %>
+				<p>No future event</p>
+			<% end %>
+
+		<h5>Past :</h5>
+		<% unless @list_past_attended_events.count == 0 %>
+			<ul>
+				<% @list_past_attended_events.each do |event| %>
+					<li> Event #<%= event.id %>, by : <%= event.creator.name %><br/>
+					<%= event.description %> <br/>
+					<a href="<%= event_path(event.id)%>"> Visit for more details </a> </li>
+				<% end %>
+			</ul>
+		<% else %>
+			<p>No past event</p>
+		<% end %>
+
+
+		<% else %>
+			Ho, it's sad : there is no event.  
+		<% end %>
+	</p>
+	<!-- Permet d'afficher le lien edit que si un utilisateur est connecté ET si l'id utilisateur est celui du profile que l'on visite. Si il n'y a pas d'user de connecté, il n'y aura pas d'erreur e allant chercher current_user car la condition sera fausse dès la première condition -->
+<%= link_to "Edit", edit_user_registration_path if user_signed_in? && @this_user.id == current_user.id %>
+<%= link_to "Back", :back %>
+
+</div>
