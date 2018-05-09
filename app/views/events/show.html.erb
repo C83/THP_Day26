@@ -11,12 +11,39 @@
 
 	<p>
 		<h4>Attendance</h4>
+		<!-- pseudo code : 
+		if user connecté 
+			if !attendeed
+				if creator 
+					button subscribe
+				else
+					payer
+				end
+			else 
+				bouton grisé
+			end -->		
 		<p>
-			<%= form_tag(subscribe_path) do -%>
+			<% if user_signed_in? && !(@this_event.attendees.find_by_id(current_user.id)) %>
+			
+				<%= form_tag(subscribe_path) do %>
 				<%= hidden_field_tag 'event', @this_event.id %>
-  				<%= submit_tag 'Subscribe' %>
+					
+					<% if @this_event.creator.id == current_user.id || @this_event.price == 0 %>
+		  				<%= submit_tag 'Subscribe' %>
+		  			<% else %>
+						Price : <%= @this_event.price %> USD  				
+		  				<script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+		          		data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+		          		data-description="A month's subscription"
+		          		data-amount= <%= (@this_event.price * 100) %> 
+		          		data-locale="auto"></script>
+		          	<% end %> 
+		        <% end %>
+		    <% else %> 
+		    	<button type="button" class="btn btn-primary" disabled> Subscribe </button>
+		    <% end %>
+
 		</p>
-			<% end -%>
 
 		<% unless @this_event.attendees.count == 0%>
 			List of attendees : <br/>

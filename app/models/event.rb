@@ -2,6 +2,7 @@ class Event < ApplicationRecord
 	validates :description, presence: true
 	validates :date, presence: true
   	validates :place, presence: true
+  	validates :price, presence: true
 
 	# creator sera le nom de la variable d'un event, en référence à user
 	# classe name permet d'indiquer que user est la classe, non pas creator

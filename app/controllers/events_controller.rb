@@ -36,13 +36,15 @@ class EventsController < ApplicationController
   # POST /events.json
   def create
     if current_user
-      @event = Event.new(params.require(:event).permit(:description, :place, :date))
+      @event = Event.new(params.require(:event).permit(:description, :place, :date, :price))
+      # @event.price = @event.price * 100 # L'utilisateur ayant renseigné des euros, on le transforme en centime
+      # Erratum : on transformera en centime au moment de lancer le paiement
       @event.creator = current_user
 
       # Code généré par le generate scaffold
       respond_to do |format|
         if @event.save
-          format.html { redirect_to @event, notice: 'Event was successfully created.' }
+          format.html { redirect_to @event, success: 'Event was successfully created.' }
           format.json { render :show, status: :created, location: @event }
         else
           format.html { render :new }
@@ -50,7 +52,7 @@ class EventsController < ApplicationController
         end
       end
     else
-      flash[:alert] = "You should be connected to create a event."
+      flash[:danger] = "You should be connected to create a event."
       redirect_to new_event_path
     end
   end

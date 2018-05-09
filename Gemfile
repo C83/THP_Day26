@@ -14,6 +14,7 @@ gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder'
 gem 'stripe'
+gem 'dotenv-rails'
 
 group :development, :test do
   gem 'sqlite3'
