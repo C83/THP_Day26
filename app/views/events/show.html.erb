@@ -48,7 +48,7 @@
 		<% unless @this_event.attendees.count == 0%>
 			List of attendees : <br/>
 			<ul>
-			<%= @this_event.attendees.each do |attendee| %>
+			<% @this_event.attendees.each do |attendee| %>
 				<li> <a href="<%= user_path(attendee.id) %>"> <%=attendee.name.capitalize %> </a> </li>
 			<% end %>
 			</ul>
